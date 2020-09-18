@@ -5,5 +5,12 @@
   "main": "index.js",
   "repository": "https://github.com/kahngjoonkoh/blockchain-with-typescript",
   "author": "Kahngjoon Koh <kahngjoonk@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "prestart": "tsc"
+  },
+  "dependencies": {
+    "nodejs": "0.0.0"
+  }
 }
