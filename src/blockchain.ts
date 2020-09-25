@@ -12,13 +12,14 @@ class Block {
     previousHash: string,
     timestamp: number,
     data: string
-  ): string => CryptoJS.SHA256(index + previousHash + timestamp + data);
+  ): string =>
+    CryptoJS.SHA256(index + previousHash + timestamp + data).toString();
 
   static validateStructure = (aBlock: Block): boolean =>
     typeof aBlock.index === "number" &&
     typeof aBlock.hash === "string" &&
     typeof aBlock.previousHash === "string" &&
-    typeof aBlock.timestamp === "string" &&
+    typeof aBlock.timestamp === "number" &&
     typeof aBlock.data === "string";
 
   constructor(
@@ -79,10 +80,13 @@ const getHashForBlock = (aBlock: Block): string =>
 
 const isBlockValid = (candidateBlock: Block, previousBlock: Block): boolean => {
   if (!Block.validateStructure(candidateBlock)) {
+    console.log("wrong structure");
     return false;
   } else if (previousBlock.index + 1 !== candidateBlock.index) {
+    console.log("incorrect index");
     return false;
-  } else if (previousBlock.hash !== candidateBlock.hash) {
+  } else if (previousBlock.hash !== candidateBlock.previousHash) {
+    console.log("incorrect hash");
     return false;
   } else if (getHashForBlock(candidateBlock) !== candidateBlock.hash) {
     return false;
@@ -94,8 +98,11 @@ const isBlockValid = (candidateBlock: Block, previousBlock: Block): boolean => {
 const addBlock = (candidateBlock: Block): void => {
   if (isBlockValid(candidateBlock, getLastestBlock())) {
     blockchain.push(candidateBlock);
+  } else {
+    console.log("fail");
   }
 };
+
 createNewBlock("second block");
 createNewBlock("third block");
 createNewBlock("fourth block");
